@@ -1,0 +1,7 @@
+interface:
+  display_name: "Virtuoso Process Migration"
+  short_description: "Safely migrate Virtuoso hierarchies across processes"
+  default_prompt: "Use $virtuoso-process-migration to audit and plan a safe recursive CellView migration before making any Virtuoso changes."
+policy:
+  allow_implicit_invocation: true
+

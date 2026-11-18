@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "profile_id": "historical-tsmc-n28-to-n65-gp-pll",
+  "description": "Mappings observed in PLL_H14 to PLL_H18 migrations. Revalidate every target master and revision before use.",
+  "source_process": {"id": "tsmc-n28", "revision": "project-record-unspecified", "minimum_channel_length_nm": 30},
+  "target_process": {"id": "tsmc-n65-gp", "revision": "project-record-unspecified", "minimum_channel_length_nm": 60},
+  "mos_default_sizing_policy": {
+    "mode": "preserve_w_over_l_raise_length_to_target_min",
+    "preserve_fingers": true,
+    "preserve_multiplier": true,
+    "description": "When no user rule is supplied, raise L to at least 60 nm and scale canonical total W by the same factor. Preserve fingers and multiplier, translate through mos_cdf_contract, execute callbacks, and read back both total and per-finger width."
+  },
+  "mos_cdf_contract": {
+    "contract_id": "tsmc-n28-total-w-Wfg-to-n65-perfinger-w-total-wf-v1",
+    "status": "historically_verified",
+    "requires_live_revalidation": true,
+    "source": {
+      "length_field": "l",
+      "total_width_field": "w",
+      "per_finger_width_field": "Wfg",
+      "fingers_field": "fingers",
+      "multiplier_field": "m",
+      "width_relation": "w = Wfg * fingers"
+    },
+    "target": {
+      "length_field": "l",
+      "total_width_field": "wf",
+      "per_finger_width_field": "w",
+      "fingers_field": "fingers",
+      "multiplier_field": "m",
+      "width_relation": "wf = w * fingers"
+    },
+    "callback_sequence": [
+      {"field": "l", "action": "set_then_callback"},
+      {"field": "fingers", "action": "set_then_callback"},
+      {"field": "m", "action": "set_then_callback"},
+      {"field": "wf", "action": "set_then_callback"}
+    ],
+    "relation_tolerance": "1e-9",
+    "evidence_note": "Observed in the maintained PLL 28 nm to 65 nm migration flow. Revalidate field presence, meanings, and callback order against each live target master/PDK revision before writes."
+  },
+  "standard_cells": [
+    {"source": {"cell": "MUX2D0BWP30P140"}, "target": {"cell": "MUX2D0"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "INVD3BWP30P140"}, "target": {"cell": "INVD3"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "ND2D3BWP30P140"}, "target": {"cell": "ND2D3"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "DEL150MD1BWP30P140"}, "target": {"cell": "DEL015"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "DEL025D1BWP30P140"}, "target": {"cell": "DEL005"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "INVD0BWP30P140"}, "target": {"cell": "INVD0"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "INVD8BWP30P140"}, "target": {"cell": "INVD8"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "MUX2ND0BWP30P140"}, "target": {"cell": "MUX2ND0"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "NR2D0BWP30P140"}, "target": {"cell": "NR2D0"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "NR2D4BWP30P140"}, "target": {"cell": "NR2D4"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"},
+    {"source": {"cell": "OR2D0BWP30P140"}, "target": {"cell": "OR2D0"}, "status": "historically_verified", "requires_target_revalidation": true, "pin_map": "identity"}
+  ],
+  "mos": [],
+  "resistors": [],
+  "capacitors": []
+}
